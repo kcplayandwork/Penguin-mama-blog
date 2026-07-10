@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { CATEGORIES, type CategoryKey } from '../../categories';
+
+export async function getStaticPaths() {
+  return Object.keys(CATEGORIES).map((category) => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+const cat = CATEGORIES[category as CategoryKey];
+const posts = (
+  await getCollection('blog', ({ data }) => !data.draft && data.category === category)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
+---
+<BaseLayout title={cat.name} description={`企鵝媽媽的「${cat.name}」文章：${cat.blurb}。`}>
+  <div class="list-hero">
+    <h1>{cat.name}</h1>
+    <p>{cat.blurb}</p>
+  </div>
+  <section class="section" style="padding-top:36px">
+    <div class="grid">
+      {posts.map((post) => (
+        <a class="card" href={`/blog/${post.id}/`}>
+          <span class="cat">{cat.name}</span>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+          <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+        </a>
+      ))}
+    </div>
+    {posts.length === 0 && <p style="color:var(--mist)">這個主題還沒有文章，敬請期待。</p>}
+  </section>
+</BaseLayout>

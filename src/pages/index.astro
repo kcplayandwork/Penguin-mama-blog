@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { CATEGORIES, type CategoryKey } from '../categories';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const featured = posts[0];
+const byCategory = (key: CategoryKey) =>
+  posts.filter((p) => p.data.category === key).slice(0, 3);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
+---
+<BaseLayout
+  title="企鵝媽媽 Penguin Mama"
+  description="企鵝媽媽的個人部落格：親子生活、職業父母的日常、帶著孩子旅行的心得筆記。"
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Penguin Mama · 企鵝媽媽</span>
+      <h1>一手牽著孩子，<br />一手拖著<span class="gold">行李箱</span>的日常</h1>
+      <p>我是企鵝媽媽——白天是銀行裡的職業媽媽，下班後是陪玩夥伴，假期則是帶著兒子到處走的旅伴。這裡記錄親子生活、職場父母的生存之道，還有一篇篇邊走邊寫的旅遊手記。</p>
+      <a class="cta" href="#featured">開始閱讀</a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 240 220">
+        <ellipse cx="95" cy="130" rx="46" ry="58" fill="#16303F"/>
+        <ellipse cx="95" cy="142" rx="28" ry="40" fill="#F7FAFB"/>
+        <circle cx="95" cy="62" r="30" fill="#16303F"/>
+        <circle cx="85" cy="57" r="4" fill="#F7FAFB"/>
+        <circle cx="105" cy="57" r="4" fill="#F7FAFB"/>
+        <polygon points="95,65 88,74 102,74" fill="#F2B23E"/>
+        <path d="M66 82 Q80 72 95 74 Q110 72 124 82 L119 92 Q95 82 71 92 Z" fill="#F2B23E" opacity=".85"/>
+        <ellipse cx="80" cy="192" rx="12" ry="5" fill="#F2B23E"/>
+        <ellipse cx="110" cy="192" rx="12" ry="5" fill="#F2B23E"/>
+        <ellipse cx="168" cy="160" rx="24" ry="30" fill="#16303F"/>
+        <ellipse cx="168" cy="167" rx="15" ry="20" fill="#F7FAFB"/>
+        <circle cx="168" cy="126" r="16" fill="#16303F"/>
+        <circle cx="163" cy="123" r="2.4" fill="#F7FAFB"/>
+        <circle cx="173" cy="123" r="2.4" fill="#F7FAFB"/>
+        <polygon points="168,128 164,133 172,133" fill="#F2B23E"/>
+        <ellipse cx="160" cy="192" rx="7" ry="3.5" fill="#F2B23E"/>
+        <ellipse cx="176" cy="192" rx="7" ry="3.5" fill="#F2B23E"/>
+        <rect x="18" y="140" width="34" height="48" rx="6" fill="#F2B23E"/>
+        <rect x="18" y="158" width="34" height="4" fill="#16303F" opacity=".25"/>
+        <rect x="28" y="126" width="14" height="16" rx="4" fill="none" stroke="#16303F" stroke-width="4"/>
+        <circle cx="26" cy="192" r="4" fill="#16303F"/>
+        <circle cx="44" cy="192" r="4" fill="#16303F"/>
+        <ellipse cx="120" cy="205" rx="115" ry="10" fill="#DCEBF2"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 分類：行李吊牌 -->
+  <section class="tags-strip">
+    <h2>行李吊牌｜三個主題</h2>
+    <div class="tags">
+      {Object.entries(CATEGORIES).map(([key, c]) => (
+        <a class="tag" href={`/category/${key}/`}>
+          <b>{c.name}</b><span>{c.blurb}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- 精選 -->
+  <section class="section" id="featured">
+    {featured && (
+      <article class="featured">
+        <div>
+          <div class="cat">{CATEGORIES[featured.data.category].name} · 最新文章</div>
+          <h3>{featured.data.title}</h3>
+          <p>{featured.data.description}</p>
+        </div>
+        <a class="read" href={`/blog/${featured.id}/`}>閱讀全文</a>
+      </article>
+    )}
+
+    {Object.entries(CATEGORIES).map(([key, c], i) => (
+      <>
+        {i === 1 && (
+          <div class="footprints" aria-hidden="true">
+            <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
+          </div>
+        )}
+        <div class="section-head" id={key}>
+          <h2>{c.name}</h2>
+          <a href={`/category/${key}/`}>更多文章 →</a>
+        </div>
+        <div class="grid" style="margin-bottom:56px">
+          {byCategory(key as CategoryKey).map((post) => (
+            <a class="card" href={`/blog/${post.id}/`}>
+              <span class="cat">{c.name}</span>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+            </a>
+          ))}
+        </div>
+      </>
+    ))}
+  </section>
+
+  <!-- 關於我 -->
+  <section class="about" id="about">
+    <div class="about-avatar" aria-hidden="true">
+      <svg viewBox="0 0 64 64">
+        <ellipse cx="32" cy="38" rx="18" ry="22" fill="#16303F"/>
+        <ellipse cx="32" cy="42" rx="11" ry="15" fill="#F7FAFB"/>
+        <circle cx="32" cy="18" r="11" fill="#16303F"/>
+        <circle cx="28" cy="16" r="1.8" fill="#F7FAFB"/>
+        <circle cx="36" cy="16" r="1.8" fill="#F7FAFB"/>
+        <polygon points="32,19 29,23 35,23" fill="#F2B23E"/>
+        <path d="M21 26 Q26 22 32 23 Q38 22 43 26 L41 30 Q32 26 23 30 Z" fill="#F2B23E" opacity=".85"/>
+      </svg>
+    </div>
+    <div>
+      <h2>關於企鵝媽媽</h2>
+      <p>企鵝爸爸孵蛋、企鵝媽媽遠行覓食——這個名字提醒我，媽媽也可以是那個帶著全家往前走的人。我在金融業工作，是一個小男孩的媽媽，也是蒙特梭利教育的實踐者。這個部落格寫給和我一樣、在工作與家庭之間認真生活的你。</p>
+    </div>
+  </section>
+
+  <!-- 訂閱 -->
+  <section class="subscribe">
+    <h2>訂閱企鵝媽媽的信</h2>
+    <p>每月一封，整理最新的親子旅行筆記與職場爸媽心得。</p>
+    <div class="sub-row">
+      <input type="email" placeholder="你的 Email" aria-label="Email" id="subEmail" />
+      <button id="subBtn">訂閱</button>
+    </div>
+    <p class="sub-note" id="subNote">不會寄垃圾信，隨時可以取消。</p>
+  </section>
+
+  <script>
+    document.getElementById('subBtn')?.addEventListener('click', () => {
+      const email = (document.getElementById('subEmail') as HTMLInputElement).value.trim();
+      const note = document.getElementById('subNote')!;
+      note.textContent = email.includes('@')
+        ? '已收到！歡迎加入企鵝家族 🐧'
+        : '請輸入有效的 Email 再按訂閱。';
+    });
+  </script>
+</BaseLayout>

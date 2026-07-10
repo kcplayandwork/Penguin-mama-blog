@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { CATEGORIES } from '../../categories';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const cat = CATEGORIES[post.data.category];
+const fmt = post.data.pubDate.toLocaleDateString('zh-TW', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  article={{ pubDate: post.data.pubDate }}
+>
+  <article class="post">
+    <a class="cat" href={`/category/${post.data.category}/`}>{cat.name}</a>
+    <h1>{post.data.title}</h1>
+    <time datetime={post.data.pubDate.toISOString()}>{fmt}</time>
+    <div class="prose">
+      <Content />
+    </div>
+    <a class="post-back" href={`/category/${post.data.category}/`}>← 回到「{cat.name}」</a>
+  </article>
+</BaseLayout>
