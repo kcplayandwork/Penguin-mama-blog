@@ -1,12 +1,13 @@
 :root{
-  --ink:#16303F;        /* 墨藍：國王企鵝的背羽 */
-  --snow:#F7FAFB;       /* 雪白 */
-  --ice:#DCEBF2;        /* 冰藍 */
-  --gold:#F2B23E;       /* 金羽黃 */
-  --mist:#5A7D8C;       /* 霧藍：次要文字 */
-  --line:#C9DAE3;
+  --ink:#9A3B3B;        /* 磚紅：主色 */
+  --snow:#FBF8F2;       /* 暖白底色 */
+  --ice:#F2ECBE;        /* 奶油黃：淺色區塊 */
+  --gold:#C08261;       /* 焦糖棕：強調色 */
+  --mist:#A0705A;       /* 中棕：次要文字 */
+  --line:#E2C799;       /* 奶茶米：線條邊框 */
+  --cream:#E2C799;      /* 奶茶米：卡片邊框 */
   --radius:14px;
-  --display:'LXGW WenKai TC', serif;
+  --display:'Noto Sans TC', sans-serif;
   --body:'Noto Sans TC', sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -17,9 +18,9 @@ img{max-width:100%;display:block}
 :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
 
 /* Header */
-header{position:sticky;top:0;z-index:50;background:rgba(247,250,251,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:50;background:rgba(251,248,242,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.35rem}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
 .brand svg{width:34px;height:34px}
 .nav-links{display:flex;gap:28px;font-size:.95rem;font-weight:500}
 .nav-links a{padding:4px 0;border-bottom:2px solid transparent;transition:border-color .2s}
@@ -29,7 +30,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(247,250,251,.92);backdro
 /* Hero */
 .hero{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
 .eyebrow{display:inline-block;font-size:.8rem;letter-spacing:.18em;color:var(--mist);margin-bottom:18px;text-transform:uppercase}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.35;margin-bottom:20px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.3;margin-bottom:20px;letter-spacing:-.02em}
 h1 .gold{color:var(--gold)}
 .hero p{color:var(--mist);max-width:34em;margin-bottom:30px}
 .cta{display:inline-block;background:var(--ink);color:var(--snow);padding:12px 30px;border-radius:999px;font-weight:500;transition:transform .2s, background .2s}
@@ -50,15 +51,15 @@ h1 .gold{color:var(--gold)}
 /* 區塊 */
 .section{max-width:1080px;margin:0 auto;padding:0 24px 72px}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px}
-.section-head h2{font-family:var(--display);font-weight:400;font-size:1.6rem}
+.section-head h2{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.02em}
 .section-head a{font-size:.9rem;color:var(--mist)}
 .section-head a:hover{color:var(--gold)}
 
 .featured{background:var(--ink);color:var(--snow);border-radius:var(--radius);padding:44px 40px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;margin-bottom:48px}
-.featured .cat{color:var(--gold);font-size:.85rem;letter-spacing:.1em;margin-bottom:10px}
-.featured h3{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.4;margin-bottom:14px}
-.featured p{color:#B9CDD8;max-width:38em;font-size:.95rem}
-.featured .read{background:var(--gold);color:var(--ink);padding:10px 24px;border-radius:999px;font-weight:700;font-size:.9rem;white-space:nowrap;transition:transform .2s}
+.featured .cat{color:var(--ice);font-size:.85rem;letter-spacing:.1em;margin-bottom:10px}
+.featured h3{font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1.4;margin-bottom:14px;letter-spacing:-.02em}
+.featured p{color:#F2ECBE;max-width:38em;font-size:.95rem;opacity:.85}
+.featured .read{background:var(--ice);color:var(--ink);padding:10px 24px;border-radius:999px;font-weight:700;font-size:.9rem;white-space:nowrap;transition:transform .2s}
 .featured .read:hover{transform:translateY(-2px)}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -66,7 +67,7 @@ h1 .gold{color:var(--gold)}
 .card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(22,48,63,.08)}
 .card .cat{font-size:.78rem;letter-spacing:.1em;color:var(--mist)}
 .card .cat::before{content:'●';color:var(--gold);margin-right:6px;font-size:.6rem;vertical-align:2px}
-.card h3{font-family:var(--display);font-weight:400;font-size:1.15rem;line-height:1.5}
+.card h3{font-family:var(--display);font-weight:700;font-size:1.1rem;line-height:1.5;letter-spacing:-.01em}
 .card p{font-size:.88rem;color:var(--mist);flex:1}
 .card time{font-size:.78rem;color:#8FA9B5}
 
@@ -77,14 +78,14 @@ h1 .gold{color:var(--gold)}
 
 /* 關於我 */
 .about{max-width:1080px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
-.about-avatar{width:150px;height:150px;border-radius:50%;background:var(--ice);display:flex;align-items:center;justify-content:center;border:2px solid var(--ink)}
+.about-avatar{width:150px;height:150px;border-radius:50%;background:var(--ice);display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);flex-shrink:0}
 .about-avatar svg{width:90px;height:90px}
-.about h2{font-family:var(--display);font-weight:400;font-size:1.6rem;margin-bottom:12px}
+.about h2{font-family:var(--display);font-weight:800;font-size:1.6rem;margin-bottom:12px;letter-spacing:-.02em}
 .about p{color:var(--mist);max-width:44em}
 
 /* 訂閱 */
 .subscribe{background:var(--ice);padding:56px 24px;text-align:center}
-.subscribe h2{font-family:var(--display);font-weight:400;font-size:1.5rem;margin-bottom:10px}
+.subscribe h2{font-family:var(--display);font-weight:800;font-size:1.5rem;margin-bottom:10px;letter-spacing:-.02em}
 .subscribe p{color:var(--mist);margin-bottom:24px;font-size:.95rem}
 .sub-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .sub-row input{padding:12px 18px;border:1px solid var(--line);border-radius:999px;min-width:260px;font-family:var(--body);font-size:.95rem;background:#fff;color:var(--ink)}
