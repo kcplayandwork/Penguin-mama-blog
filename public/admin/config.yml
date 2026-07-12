@@ -2,7 +2,8 @@ backend:
   name: github
   repo: kcplayandwork/penguin-mama-blog
   branch: main
-  base_url: https://penguin-mama-blog.vercel.app/api
+  base_url: https://penguin-mama-blog.vercel.app
+  auth_endpoint: api/auth
 
 media_folder: public/images
 public_folder: /images
