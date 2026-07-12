@@ -1,4 +1,4 @@
-﻿backend:
+backend:
   name: github
   repo: kcplayandwork/penguin-mama-blog
   branch: main
@@ -13,12 +13,34 @@ collections:
     label: 文章管理
     folder: src/content/blog
     create: true
-    slug: '{{slug}}'
+    slug: "{{slug}}"
     extension: md
     fields:
-      - {label: 標題, name: title, widget: string}
-      - {label: 摘要, name: description, widget: text}
-      - {label: 分類, name: category, widget: select, options: [{label: 親子生活, value: parenting},{label: 職場爸媽, value: working},{label: 旅遊手記, value: travel}]}
-      - {label: 發布日期, name: pubDate, widget: datetime, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false}
-      - {label: 草稿, name: draft, widget: boolean, default: false, required: false}
-      - {label: 文章內容, name: body, widget: markdown}
+      - label: 標題
+        name: title
+        widget: string
+      - label: 摘要
+        name: description
+        widget: text
+      - label: 分類
+        name: category
+        widget: select
+        options:
+          - label: 親子生活
+            value: parenting
+          - label: 職場爸媽
+            value: working
+          - label: 旅遊手記
+            value: travel
+      - label: 發布日期
+        name: pubDate
+        widget: date
+        format: YYYY-MM-DD
+      - label: 草稿
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+      - label: 文章內容
+        name: body
+        widget: markdown
