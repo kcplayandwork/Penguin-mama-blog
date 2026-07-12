@@ -14,14 +14,24 @@ function parseCookies(header = '') {
 
 function renderMessage(status, payload) {
   const message = `authorization:github:${status}:${JSON.stringify(payload)}`;
+  const statusText = status === 'success' ? '登入成功，這個視窗會自動關閉…' : '登入失敗';
+  const detail = status === 'success' ? '' : JSON.stringify(payload);
   return `<!DOCTYPE html>
 <html>
   <body>
+    <p id="status">${statusText}</p>
+    <pre id="detail">${detail}</pre>
     <script>
       (function () {
+        if (!window.opener) {
+          document.getElementById('status').textContent =
+            '找不到開啟這個視窗的來源頁面，請直接關閉分頁，回到 /admin 重新登入一次。';
+          return;
+        }
         function receiveMessage(e) {
           window.opener.postMessage(${JSON.stringify(message)}, e.origin);
           window.removeEventListener('message', receiveMessage, false);
+          setTimeout(function () { window.close(); }, 300);
         }
         window.addEventListener('message', receiveMessage, false);
         window.opener.postMessage('authorizing:github', '*');
