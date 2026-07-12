@@ -2,7 +2,6 @@ backend:
   name: github
   repo: kcplayandwork/penguin-mama-blog
   branch: main
-  base_url: https://sveltia-cms-auth-seven.vercel.app
 
 media_folder: public/images
 public_folder: /images
