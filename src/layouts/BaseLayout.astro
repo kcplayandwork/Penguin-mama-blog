@@ -10,7 +10,7 @@ interface Props {
 
 const { title, description, article } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const siteName = '企鵝媽媽 Penguin Mama';
+const siteName = '企鵝媽媽的行李箱 Penguin Mama';
 const fullTitle = title === siteName ? title : `${title}｜${siteName}`;
 
 const jsonLd = article
@@ -61,17 +61,17 @@ const jsonLd = article
 <body>
   <header>
     <nav class="nav">
-      <a class="brand" href="/" aria-label="企鵝媽媽首頁">
+      <a class="brand" href="/" aria-label="企鵝媽媽的行李箱首頁">
         <svg viewBox="0 0 64 64" aria-hidden="true" style="display:none"><!-- placeholder --></svg>
-          <img src="/penguin-logo-red.png" alt="" aria-hidden="true" style="width:42px;height:42px;object-fit:contain" />
-        企鵝媽媽
+          <img src="/penguin-logo-red.png" alt="" aria-hidden="true" style="width:42px;height:42px;object-fit:contain;mix-blend-mode:multiply;background:transparent" />
+        企鵝媽媽的行李箱
       </a>
       <button class="menu-btn" aria-label="開啟選單" aria-expanded="false" id="menuBtn">☰</button>
       <div class="nav-links" id="navLinks">
-        <a href="/category/parenting/">親子生活</a>
-        <a href="/category/working/">職場爸媽</a>
-        <a href="/category/travel/">旅遊手記</a>
-        <a href="/#about">關於我</a>
+        <a href="/category/parenting/">企鵝寶寶副本</a>
+        <a href="/category/working/">副本裡的大人</a>
+        <a href="/category/travel/">親子行李箱</a>
+        <a href="/category/solo/">一個人的行李箱</a>
       </div>
     </nav>
   </header>
@@ -81,7 +81,7 @@ const jsonLd = article
   </main>
 
   <footer>
-    <b>企鵝媽媽 Penguin Mama</b><br />
+    <b>企鵝媽媽的行李箱 Penguin Mama</b><br />
     © {new Date().getFullYear()} · 親子 · 職場 · 旅遊手記 ·
     <a href="/rss.xml" style="text-decoration:underline">RSS</a>
   </footer>

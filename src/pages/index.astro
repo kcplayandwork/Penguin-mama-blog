@@ -14,7 +14,7 @@ const fmt = (d: Date) =>
   d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
 ---
 <BaseLayout
-  title="企鵝媽媽 Penguin Mama"
+  title="企鵝媽媽的行李箱 Penguin Mama"
   description="企鵝媽媽的個人部落格：親子生活、職業父母的日常、帶著孩子旅行的心得筆記。"
 >
   <!-- Hero -->
@@ -32,7 +32,7 @@ const fmt = (d: Date) =>
 
   <!-- 分類：行李吊牌 -->
   <section class="tags-strip">
-    <h2>行李吊牌｜三個主題</h2>
+    <h2>行李吊牌｜四個主題</h2>
     <div class="tags">
       {Object.entries(CATEGORIES).map(([key, c]) => (
         <a class="tag" href={`/category/${key}/`}>
@@ -57,7 +57,7 @@ const fmt = (d: Date) =>
 
     {Object.entries(CATEGORIES).map(([key, c], i) => (
       <>
-        {i === 1 && (
+        {i > 0 && (
           <div class="footprints" aria-hidden="true">
             <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
           </div>
