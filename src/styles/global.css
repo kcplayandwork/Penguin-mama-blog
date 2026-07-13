@@ -41,8 +41,8 @@ h1 .gold{color:var(--gold)}
 /* 行李吊牌分類 */
 .tags-strip{max-width:1080px;margin:0 auto;padding:0 24px 64px}
 .tags-strip h2{font-family:var(--display);font-weight:400;font-size:1.3rem;margin-bottom:20px}
-.tags{display:flex;gap:18px;flex-wrap:wrap}
-.tag{position:relative;background:#fff;border:1.5px solid var(--ink);border-radius:6px 18px 18px 6px;padding:14px 22px 14px 34px;min-width:200px;box-shadow:3px 3px 0 var(--ice);transition:transform .2s, box-shadow .2s}
+.tags{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tag{position:relative;background:#fff;border:1.5px solid var(--ink);border-radius:6px 18px 18px 6px;padding:14px 22px 14px 34px;box-shadow:3px 3px 0 var(--ice);transition:transform .2s, box-shadow .2s}
 .tag:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--gold)}
 .tag::before{content:'';position:absolute;left:12px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:var(--snow);border:1.5px solid var(--ink)}
 .tag b{display:block;font-family:var(--display);font-size:1.1rem;font-weight:400}
@@ -118,6 +118,7 @@ footer b{color:var(--snow);font-family:var(--display);font-weight:400}
   .hero-art{order:-1}
   .hero-art svg{width:200px}
   .grid{grid-template-columns:1fr 1fr}
+  .tags{grid-template-columns:repeat(2,1fr)}
   .featured{grid-template-columns:1fr}
   .about{grid-template-columns:1fr;text-align:center}
   .about-avatar{margin:0 auto}
@@ -128,7 +129,7 @@ footer b{color:var(--snow);font-family:var(--display);font-weight:400}
 }
 @media (max-width:560px){
   .grid{grid-template-columns:1fr}
-  .tag{min-width:100%}
+  .tags{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
