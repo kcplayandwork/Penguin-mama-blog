@@ -27,12 +27,14 @@ collections:
         name: category
         widget: select
         options:
-          - label: 親子生活
+          - label: 企鵝寶寶副本
             value: parenting
-          - label: 職場爸媽
+          - label: 副本裡的大人
             value: working
-          - label: 旅遊手記
+          - label: 親子行李箱
             value: travel
+          - label: 一個人的行李箱
+            value: solo
       - label: 發布日期
         name: pubDate
         widget: date

@@ -6,7 +6,7 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(), // SEO meta description，建議 80–120 字內
-    category: z.enum(['parenting', 'working', 'travel']),
+    category: z.enum(['parenting', 'working', 'travel', 'solo']),
     pubDate: z.coerce.date(),
     draft: z.boolean().default(false),
   }),
