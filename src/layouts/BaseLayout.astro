@@ -50,7 +50,8 @@ const jsonLd = article
   <meta property="og:url" content={canonical} />
   <meta property="og:site_name" content={siteName} />
   <meta property="og:locale" content="zh_TW" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://penguinmama.blog/penguin-logo-red.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
@@ -82,7 +83,7 @@ const jsonLd = article
 
   <footer>
     <b>企鵝媽媽的行李箱 Penguin Mama</b><br />
-    © {new Date().getFullYear()} · 親子 · 職場 · 旅遊手記 ·
+    © {new Date().getFullYear()} · 副本人生進行中 · 暫無業配，請安心服用 ·
     <a href="/rss.xml" style="text-decoration:underline">RSS</a>
   </footer>
 

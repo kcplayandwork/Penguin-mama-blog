@@ -36,7 +36,6 @@ h1 .gold{color:var(--gold)}
 .cta{display:inline-block;background:var(--ink);color:var(--snow);padding:12px 30px;border-radius:999px;font-weight:500;transition:transform .2s, background .2s}
 .cta:hover{background:#0F2430;transform:translateY(-2px)}
 .hero-art{display:flex;justify-content:center}
-.hero-art svg{width:min(320px,80%);height:auto}
 
 /* 行李吊牌分類 */
 .tags-strip{max-width:1080px;margin:0 auto;padding:0 24px 64px}
@@ -70,6 +69,7 @@ h1 .gold{color:var(--gold)}
 .card h3{font-family:var(--display);font-weight:700;font-size:1.1rem;line-height:1.5;letter-spacing:-.01em}
 .card p{font-size:.88rem;color:var(--mist);flex:1}
 .card time{font-size:.78rem;color:#8FA9B5}
+.empty-category{color:var(--mist);font-style:italic;padding:8px 0}
 
 /* 企鵝腳印分隔 */
 .footprints{max-width:1080px;margin:0 auto 72px;padding:0 24px;display:flex;justify-content:center;gap:26px;opacity:.5}
@@ -113,8 +113,7 @@ footer b{color:var(--snow);font-family:var(--display);font-weight:400}
 @media (max-width:860px){
   .hero{grid-template-columns:1fr;padding-top:48px;text-align:center}
   .hero p{margin-left:auto;margin-right:auto}
-  .hero-art{order:-1}
-  .hero-art svg{width:200px}
+  .hero-art{display:none}
   .grid{grid-template-columns:1fr 1fr}
   .tags{grid-template-columns:repeat(2,1fr)}
   .featured{grid-template-columns:1fr}

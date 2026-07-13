@@ -8,14 +8,14 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 );
 const featured = posts[0];
 const byCategory = (key: CategoryKey) =>
-  posts.filter((p) => p.data.category === key).slice(0, 3);
+  posts.filter((p) => p.data.category === key && p.id !== featured?.id).slice(0, 3);
 
 const fmt = (d: Date) =>
   d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
 ---
 <BaseLayout
   title="企鵝媽媽的行李箱 Penguin Mama"
-  description="企鵝媽媽的個人部落格：親子生活、職業父母的日常、帶著孩子旅行的心得筆記。"
+  description="副本人生進行中——企鵝寶寶的日常、職場大人的碎碎念、親子旅行的真實樣貌，還有副本開啟前走過的地方。暫無業配，請安心服用。"
 >
   <!-- Hero -->
   <section class="hero">
@@ -26,7 +26,7 @@ const fmt = (d: Date) =>
       <a class="cta" href="#featured">開始閱讀</a>
     </div>
     <div class="hero-art" aria-hidden="true">
-      <img src="/penguin-logo-red.png" alt="" style="width:min(320px,80%);height:auto;mix-blend-mode:multiply" />
+      <img src="/penguin-logo-red.png" alt="" style="width:min(256px,64%);height:auto;mix-blend-mode:multiply;opacity:.92" />
     </div>
   </section>
 
@@ -55,29 +55,36 @@ const fmt = (d: Date) =>
       </article>
     )}
 
-    {Object.entries(CATEGORIES).map(([key, c], i) => (
-      <>
-        {i > 0 && (
-          <div class="footprints" aria-hidden="true">
-            <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
+    {Object.entries(CATEGORIES).map(([key, c], i) => {
+      const catPosts = byCategory(key as CategoryKey);
+      return (
+        <>
+          {i > 0 && (
+            <div class="footprints" aria-hidden="true">
+              <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
+            </div>
+          )}
+          <div class="section-head" id={key}>
+            <h2>{c.name}</h2>
+            <a href={`/category/${key}/`}>更多文章 →</a>
           </div>
-        )}
-        <div class="section-head" id={key}>
-          <h2>{c.name}</h2>
-          <a href={`/category/${key}/`}>更多文章 →</a>
-        </div>
-        <div class="grid" style="margin-bottom:56px">
-          {byCategory(key as CategoryKey).map((post) => (
-            <a class="card" href={`/blog/${post.id}/`}>
-              <span class="cat">{c.name}</span>
-              <h3>{post.data.title}</h3>
-              <p>{post.data.description}</p>
-              <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
-            </a>
-          ))}
-        </div>
-      </>
-    ))}
+          {catPosts.length > 0 ? (
+            <div class="grid" style="margin-bottom:56px">
+              {catPosts.map((post) => (
+                <a class="card" href={`/blog/${post.id}/`}>
+                  <span class="cat">{c.name}</span>
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                  <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <p class="empty-category" style="margin-bottom:56px">整理行李中，故事即將啟程 🐧</p>
+          )}
+        </>
+      );
+    })}
   </section>
 
   <!-- 關於我 -->
