@@ -82,16 +82,7 @@ h1 .gold{color:var(--gold)}
 .about-avatar svg{width:90px;height:90px}
 .about h2{font-family:var(--display);font-weight:800;font-size:1.6rem;margin-bottom:12px;letter-spacing:-.02em}
 .about p{color:var(--mist);max-width:44em}
-
-/* 訂閱 */
-.subscribe{background:var(--ice);padding:56px 24px;text-align:center}
-.subscribe h2{font-family:var(--display);font-weight:800;font-size:1.5rem;margin-bottom:10px;letter-spacing:-.02em}
-.subscribe p{color:var(--mist);margin-bottom:24px;font-size:.95rem}
-.sub-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.sub-row input{padding:12px 18px;border:1px solid var(--line);border-radius:999px;min-width:260px;font-family:var(--body);font-size:.95rem;background:#fff;color:var(--ink)}
-.sub-row button{background:var(--ink);color:var(--snow);border:none;border-radius:999px;padding:12px 28px;font-family:var(--body);font-weight:500;font-size:.95rem;cursor:pointer;transition:background .2s}
-.sub-row button:hover{background:#0F2430}
-.sub-note{font-size:.8rem;color:var(--mist);margin-top:14px}
+.about p+p{margin-top:12px}
 
 footer{background:var(--ink);color:#9DB6C2;text-align:center;padding:28px 24px;font-size:.85rem}
 footer b{color:var(--snow);font-family:var(--display);font-weight:400}

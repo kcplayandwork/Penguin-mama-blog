@@ -87,28 +87,10 @@ const fmt = (d: Date) =>
     </div>
     <div>
       <h2>關於企鵝媽媽</h2>
-      <p>企鵝爸爸孵蛋、企鵝媽媽遠行覓食——這個名字提醒我，媽媽也可以是那個帶著全家往前走的人。我在金融業工作，是一個小男孩的媽媽，也是蒙特梭利教育的實踐者。這個部落格寫給和我一樣、在工作與家庭之間認真生活的你。</p>
+      <p>一個意外開啟副本人生的女孩（本人堅持自稱女孩，實際上是走跳江湖多年的老阿姨）。</p>
+      <p>M7 MBA、七大洲都踩過了的四十歲，某天突然解鎖了有一隻企鵝寶寶的新副本——從此人生劇情走向完全改寫。</p>
+      <p>這裡記錄我在親子、職場、旅行之間找到的留白與觀察。不一定有答案，但這個小天地讓我保持清醒、保持溫柔、保持好奇，對人生不失去熱情。</p>
     </div>
   </section>
 
-  <!-- 訂閱 -->
-  <section class="subscribe">
-    <h2>訂閱企鵝媽媽的信</h2>
-    <p>每月一封，整理最新的親子旅行筆記與職場爸媽心得。</p>
-    <div class="sub-row">
-      <input type="email" placeholder="你的 Email" aria-label="Email" id="subEmail" />
-      <button id="subBtn">訂閱</button>
-    </div>
-    <p class="sub-note" id="subNote">不會寄垃圾信，隨時可以取消。</p>
-  </section>
-
-  <script>
-    document.getElementById('subBtn')?.addEventListener('click', () => {
-      const email = (document.getElementById('subEmail') as HTMLInputElement).value.trim();
-      const note = document.getElementById('subNote')!;
-      note.textContent = email.includes('@')
-        ? '已收到！歡迎加入企鵝家族 🐧'
-        : '請輸入有效的 Email 再按訂閱。';
-    });
-  </script>
 </BaseLayout>
