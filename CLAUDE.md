@@ -23,7 +23,7 @@ node scripts/process-images.mjs "<使用者給的資料夾路徑>" <slug>
   ```yaml
   title: 依主題和重點下的標題（含讀者會搜尋的關鍵字）
   description: 80–120 字摘要
-  category: parenting | working | travel
+  category: parenting | working | travel | solo
   pubDate: 今天日期，格式 YYYY-MM-DD
   draft: true   # 一律先設 true，見下方「5. 發布流程」
   ```
