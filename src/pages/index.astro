@@ -6,31 +6,78 @@ import { CATEGORIES, type CategoryKey } from '../categories';
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-const featured = posts[0];
-const byCategory = (key: CategoryKey) => {
-  const all = posts.filter((p) => p.data.category === key);
-  const withoutFeatured = all.filter((p) => p.id !== featured?.id);
-  // 如果精選文章是這個分類唯一的一篇，還是要顯示，不然分類區塊會誤顯示成空的
-  return (withoutFeatured.length > 0 ? withoutFeatured : all).slice(0, 3);
-};
 
 const fmt = (d: Date) =>
   d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
+
+// 最新文章：第一篇當作大卡片，接下來三篇排小卡片
+const latest = posts.slice(0, 4);
+const latestIds = new Set(latest.map((p) => p.id));
+
+// 分類瀏覽：排除已經在「最新文章」出現過的文章；如果排除後這個分類會變成空的，就還是顯示（避免分類看起來像沒文章）
+const byCategory = (key: CategoryKey) => {
+  const all = posts.filter((p) => p.data.category === key);
+  const rest = all.filter((p) => !latestIds.has(p.id));
+  return (rest.length > 0 ? rest : all).slice(0, 3);
+};
+
+// 你可能也想看：從還沒在「最新文章」出現過的文章裡，盡量挑不同分類的 2-3 篇
+const discovery: typeof posts = [];
+const discoverySeenCat = new Set<string>();
+for (const p of posts) {
+  if (latestIds.has(p.id) || discoverySeenCat.has(p.data.category)) continue;
+  discovery.push(p);
+  discoverySeenCat.add(p.data.category);
+  if (discovery.length >= 3) break;
+}
 ---
 <BaseLayout
   title="企鵝媽媽的行李箱 Penguin Mama"
-  description="副本人生進行中——企鵝寶寶的日常、職場大人的碎碎念、親子旅行的真實樣貌，還有副本開啟前走過的地方。暫無業配，請安心服用。"
+  description="副本人生進行中——企鵝寶寶的日常、職場大人的碎碎念、親子旅行的真實樣貌，還有副本開啟前走過的地方。"
+  isHome
 >
   <!-- Hero -->
   <section class="hero">
     <div>
       <span class="eyebrow">Penguin Mama · 企鵝媽媽</span>
+      <span class="byline">企鵝媽媽｜金融業職業媽媽・蒙特梭利實踐者・走過七大洲的旅人</span>
       <h1>一手牽著孩子，<br />一手拖著<span class="gold">行李箱</span>的日常</h1>
-      <p>某天突然解鎖了有一隻企鵝寶寶的副本人生，從此行程表多了幼稚園接送，行李箱多了一些重量，人生劇情也完全改寫。<br /><br />副本人生進行中。這裡記錄企鵝寶寶的日常、職場大人的碎碎念、親子旅行的真實樣貌（好玩就是好玩，普通就是普通），還有副本開啟前那些走過的地方。<br /><br />暫無業配，請安心服用。</p>
-      <a class="cta" href="#featured">開始閱讀</a>
+      <p>某天突然解鎖了有一隻企鵝寶寶的副本人生，從此行程表多了幼稚園接送，行李箱多了一些重量，人生劇情也完全改寫。副本人生進行中：這裡記錄企鵝寶寶的日常、職場大人的碎碎念、親子旅行的真實樣貌（好玩就是好玩，普通就是普通），還有副本開啟前那些走過的地方。</p>
+      <p class="who-line">如果你也在親子、職場、旅行和自己的人生之間找平衡，這裡大概會對你有用——不一定有答案，但至少不孤單。</p>
+      <div class="cta-row">
+        <a class="cta" href="#latest">開始閱讀</a>
+        <a class="cta-outline" href="#latest">最新文章</a>
+        <a class="cta-outline" href="/about/">認識企鵝媽媽</a>
+      </div>
     </div>
     <div class="hero-art" aria-hidden="true">
-      <img src="/penguin-logo-red.png" alt="" style="width:min(256px,64%);height:auto;mix-blend-mode:multiply;opacity:.92" />
+      <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <g transform="rotate(-4 160 150)">
+          <rect x="40" y="50" width="220" height="150" rx="10" fill="#fff" stroke="var(--ink)" stroke-width="2.5"/>
+          <rect x="52" y="62" width="196" height="126" rx="6" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 5"/>
+          <rect x="196" y="66" width="40" height="40" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="3 4"/>
+          <text x="216" y="90" font-family="Noto Sans TC, sans-serif" font-size="9" fill="var(--gold)" text-anchor="middle">AIR MAIL</text>
+          <path d="M64 168 Q 120 140 160 158 T 232 150" fill="none" stroke="var(--harbor)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+          <circle cx="64" cy="168" r="3.5" fill="var(--harbor)"/>
+          <circle cx="232" cy="150" r="3.5" fill="var(--harbor)"/>
+        </g>
+        <g transform="translate(112,132)">
+          <ellipse cx="0" cy="10" rx="34" ry="42" fill="var(--ink)"/>
+          <ellipse cx="0" cy="16" rx="22" ry="30" fill="#fff"/>
+          <circle cx="0" cy="-24" r="21" fill="var(--ink)"/>
+          <circle cx="0" cy="-21" r="13" fill="#fff"/>
+          <circle cx="-5" cy="-22" r="2" fill="var(--ink)"/>
+          <circle cx="5" cy="-22" r="2" fill="var(--ink)"/>
+          <ellipse cx="34" cy="26" rx="12" ry="16" fill="var(--gold)" opacity=".9"/>
+          <ellipse cx="34" cy="20" rx="8" ry="10" fill="#fff"/>
+          <circle cx="34" cy="4" r="7" fill="var(--gold)" opacity=".9"/>
+        </g>
+        <g transform="rotate(8 232 214)">
+          <rect x="212" y="196" width="52" height="36" rx="4" fill="var(--ice)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="222" cy="206" r="2.5" fill="var(--ink)"/>
+          <line x1="212" y1="196" x2="196" y2="176" stroke="var(--ink)" stroke-width="1.5"/>
+        </g>
+      </svg>
     </div>
   </section>
 
@@ -46,27 +93,44 @@ const fmt = (d: Date) =>
     </div>
   </section>
 
-  <!-- 精選 -->
-  <section class="section" id="featured">
-    {featured && (
+  <!-- 最新文章 -->
+  <section class="section" id="latest">
+    <div class="section-head">
+      <h2>最新文章</h2>
+    </div>
+    {latest[0] && (
       <article class="featured">
         <div>
-          <div class="cat">{CATEGORIES[featured.data.category].name} · 最新文章</div>
-          <h3>{featured.data.title}</h3>
-          <p>{featured.data.description}</p>
+          <div class="cat">{CATEGORIES[latest[0].data.category].name} · 最新文章</div>
+          <h3>{latest[0].data.title}</h3>
+          <p>{latest[0].data.description}</p>
+          <time datetime={latest[0].data.pubDate.toISOString()}>{fmt(latest[0].data.pubDate)}</time>
         </div>
-        <a class="read" href={`/blog/${featured.id}/`}>閱讀全文</a>
+        <a class="read" href={`/blog/${latest[0].id}/`}>閱讀全文</a>
       </article>
     )}
+    {latest.length > 1 && (
+      <div class="grid">
+        {latest.slice(1).map((post) => (
+          <a class="card" href={`/blog/${post.id}/`}>
+            <span class="cat">{CATEGORIES[post.data.category].name}</span>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
 
+  <!-- 分類瀏覽 -->
+  <section class="section">
     {Object.entries(CATEGORIES).map(([key, c], i) => {
       const catPosts = byCategory(key as CategoryKey);
       return (
         <>
           {i > 0 && (
-            <div class="footprints" aria-hidden="true">
-              <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
-            </div>
+            <div class="divider" aria-hidden="true"><span class="divider-mark"></span></div>
           )}
           <div class="section-head" id={key}>
             <h2>{c.name}</h2>
@@ -84,20 +148,48 @@ const fmt = (d: Date) =>
               ))}
             </div>
           ) : (
-            <p class="empty-category" style="margin-bottom:56px">整理行李中，故事即將啟程 🐧</p>
+            <div class="coming-soon">
+              <span class="coming-soon-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+                  <path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                  <line x1="3" y1="13" x2="21" y2="13"></line>
+                </svg>
+              </span>
+              <div>
+                <h3>整理行李中，故事即將啟程</h3>
+                <p>這個主題還在打包，{c.blurb}，敬請期待第一篇文章。</p>
+              </div>
+            </div>
           )}
         </>
       );
     })}
   </section>
 
+  <!-- 你可能也想看 -->
+  {discovery.length > 0 && (
+    <section class="section">
+      <div class="section-head"><h2>你可能也想看</h2></div>
+      <div class="grid">
+        {discovery.map((post) => (
+          <a class="card" href={`/blog/${post.id}/`}>
+            <span class="cat">{CATEGORIES[post.data.category].name}</span>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
   <!-- 關於我 -->
   <section class="about" id="about">
     <div>
       <h2>關於企鵝媽媽</h2>
-      <p>一個意外開啟副本人生的女孩（本人堅持自稱女孩，實際上是走跳江湖多年的老阿姨）。</p>
-      <p>M7 MBA、七大洲都踩過了的四十歲，某天突然解鎖了有一隻企鵝寶寶的新副本——從此人生劇情走向完全改寫。</p>
-      <p>這裡記錄我在親子、職場、旅行之間找到的留白與觀察。不一定有答案，但這個小天地讓我保持清醒、保持溫柔、保持好奇，對人生不失去熱情。</p>
+      <p>一個意外開啟副本人生的女孩（本人堅持自稱女孩，實際上是走跳江湖多年的老阿姨）。M7 MBA、七大洲都踩過了的四十歲，某天突然解鎖了有一隻企鵝寶寶的新副本——從此人生劇情走向完全改寫。</p>
+      <p>這裡記錄我在親子、職場、旅行之間找到的留白與觀察。<a href="/about/" style="color:var(--harbor);border-bottom:1px solid var(--harbor)">完整故事看這裡 →</a></p>
     </div>
   </section>
 

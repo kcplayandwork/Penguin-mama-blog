@@ -16,22 +16,41 @@ const posts = (
 const fmt = (d: Date) =>
   d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
 ---
-<BaseLayout title={cat.name} description={`企鵝媽媽的「${cat.name}」文章：${cat.blurb}。`}>
+<BaseLayout
+  title={cat.name}
+  description={`企鵝媽媽的「${cat.name}」文章：${cat.blurb}。`}
+  ogCategory={category as CategoryKey}
+>
   <div class="list-hero">
     <h1>{cat.name}</h1>
     <p>{cat.blurb}</p>
   </div>
   <section class="section" style="padding-top:36px">
-    <div class="grid">
-      {posts.map((post) => (
-        <a class="card" href={`/blog/${post.id}/`}>
-          <span class="cat">{cat.name}</span>
-          <h3>{post.data.title}</h3>
-          <p>{post.data.description}</p>
-          <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
-        </a>
-      ))}
-    </div>
-    {posts.length === 0 && <p style="color:var(--mist)">這個主題還沒有文章，敬請期待。</p>}
+    {posts.length > 0 ? (
+      <div class="grid">
+        {posts.map((post) => (
+          <a class="card" href={`/blog/${post.id}/`}>
+            <span class="cat">{cat.name}</span>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="coming-soon">
+        <span class="coming-soon-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+            <path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+            <line x1="3" y1="13" x2="21" y2="13"></line>
+          </svg>
+        </span>
+        <div>
+          <h3>整理行李中，故事即將啟程</h3>
+          <p>這個主題還在打包，{cat.blurb}，敬請期待第一篇文章。</p>
+        </div>
+      </div>
+    )}
   </section>
 </BaseLayout>

@@ -4,21 +4,29 @@ import { getCollection, render } from 'astro:content';
 import { CATEGORIES } from '../../categories';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  return posts.map((post, i) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      // 上一篇：發布時間較早；下一篇：發布時間較晚
+      prevPost: posts[i + 1] ?? null,
+      nextPost: posts[i - 1] ?? null,
+      related: posts
+        .filter((p) => p.id !== post.id && p.data.category === post.data.category)
+        .slice(0, 3),
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost, related } = Astro.props;
 const { Content, headings } = await render(post);
 const cat = CATEGORIES[post.data.category];
-const fmt = post.data.pubDate.toLocaleDateString('zh-TW', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const canonical = new URL(`/blog/${post.id}/`, Astro.site).toString();
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
 
 let h2i = 0;
 const tocItems = headings
@@ -32,20 +40,22 @@ const showToc = tocItems.length >= 3;
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
-  article={{ pubDate: post.data.pubDate }}
+  article={{ pubDate: post.data.pubDate, category: post.data.category }}
 >
   <article class="post">
     <a class="cat" href={`/category/${post.data.category}/`}>{cat.name}</a>
     <h1>{post.data.title}</h1>
-    <time datetime={post.data.pubDate.toISOString()}>{fmt}</time>
+    <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+
+    <p class="lead">{post.data.description}</p>
 
     {showToc && (
-      <nav class="toc" aria-label="文章目錄">
+      <nav class="toc" aria-label="文章目錄" id="toc">
         <div class="toc-head">
           <span>文章目錄</span>
-          <button type="button" class="toc-toggle" aria-expanded="true">收合</button>
+          <button type="button" class="toc-toggle" aria-expanded="true" aria-controls="tocList">收合</button>
         </div>
-        <ul class="toc-list">
+        <ul class="toc-list" id="tocList">
           {tocItems.map((item) => (
             <li class:list={['toc-item', item.depth === 3 && 'toc-sub']}>
               <a href={`#${item.slug}`}>
@@ -65,17 +75,78 @@ const showToc = tocItems.length >= 3;
     <div class="prose">
       <Content />
     </div>
-    <a class="post-back" href={`/category/${post.data.category}/`}>← 回到「{cat.name}」</a>
+
+    <div class="share-row">
+      <span class="share-label">分享這篇：</span>
+      <button type="button" class="share-btn" id="copyLinkBtn" data-url={canonical}>複製連結</button>
+      <a class="share-btn" href={`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(canonical)}`} target="_blank" rel="noopener noreferrer">LINE</a>
+      <a class="share-btn" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}`} target="_blank" rel="noopener noreferrer">Facebook</a>
+    </div>
+
+    <div class="post-links">
+      <a class="post-back" href={`/category/${post.data.category}/`}>← 回到「{cat.name}」</a>
+      <a class="post-back" href="/">回首頁</a>
+    </div>
+
+    {(prevPost || nextPost) && (
+      <div class="post-nav">
+        {prevPost ? (
+          <a href={`/blog/${prevPost.id}/`}>
+            <span class="dir">← 上一篇</span>
+            <span class="title">{prevPost.data.title}</span>
+          </a>
+        ) : <div></div>}
+        {nextPost ? (
+          <a class="next" href={`/blog/${nextPost.id}/`}>
+            <span class="dir">下一篇 →</span>
+            <span class="title">{nextPost.data.title}</span>
+          </a>
+        ) : <div></div>}
+      </div>
+    )}
+
+    {related.length > 0 && (
+      <div style="margin-top:48px">
+        <div class="section-head" style="margin-bottom:20px"><h2 style="font-size:1.2rem">同分類文章</h2></div>
+        <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+          {related.map((p) => (
+            <a class="card" href={`/blog/${p.id}/`}>
+              <span class="cat">{cat.name}</span>
+              <h3>{p.data.title}</h3>
+              <p>{p.data.description}</p>
+              <time datetime={p.data.pubDate.toISOString()}>{fmt(p.data.pubDate)}</time>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
   </article>
 
   <script>
-    document.querySelectorAll('.toc-toggle').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const toc = btn.closest('.toc');
-        const collapsed = toc?.classList.toggle('collapsed');
-        btn.textContent = collapsed ? '展開' : '收合';
-        btn.setAttribute('aria-expanded', String(!collapsed));
-      });
+    const toc = document.getElementById('toc');
+    const tocBtn = toc?.querySelector('.toc-toggle');
+    const setToc = (collapsed: boolean) => {
+      toc?.classList.toggle('collapsed', collapsed);
+      tocBtn?.setAttribute('aria-expanded', String(!collapsed));
+      if (tocBtn) tocBtn.textContent = collapsed ? '展開' : '收合';
+    };
+    // 手機版預設收合，桌機版預設展開
+    setToc(window.matchMedia('(max-width:860px)').matches);
+    tocBtn?.addEventListener('click', () => {
+      setToc(!toc?.classList.contains('collapsed'));
+    });
+
+    const copyBtn = document.getElementById('copyLinkBtn');
+    copyBtn?.addEventListener('click', async () => {
+      const url = copyBtn.getAttribute('data-url') || location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        const original = copyBtn.textContent;
+        copyBtn.textContent = '已複製！';
+        setTimeout(() => { copyBtn.textContent = original; }, 1800);
+      } catch {
+        window.prompt('複製這個連結：', url);
+      }
     });
   </script>
 </BaseLayout>
