@@ -12,13 +12,22 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const cat = CATEGORIES[post.data.category];
 const fmt = post.data.pubDate.toLocaleDateString('zh-TW', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
+
+let h2i = 0;
+const tocItems = headings
+  .filter((h) => h.depth === 2 || h.depth === 3)
+  .map((h) => {
+    if (h.depth === 2) h2i++;
+    return { ...h, num: h.depth === 2 ? String(h2i).padStart(2, '0') : null };
+  });
+const showToc = tocItems.length >= 3;
 ---
 <BaseLayout
   title={post.data.title}
@@ -29,9 +38,44 @@ const fmt = post.data.pubDate.toLocaleDateString('zh-TW', {
     <a class="cat" href={`/category/${post.data.category}/`}>{cat.name}</a>
     <h1>{post.data.title}</h1>
     <time datetime={post.data.pubDate.toISOString()}>{fmt}</time>
+
+    {showToc && (
+      <nav class="toc" aria-label="文章目錄">
+        <div class="toc-head">
+          <span>文章目錄</span>
+          <button type="button" class="toc-toggle" aria-expanded="true">收合</button>
+        </div>
+        <ul class="toc-list">
+          {tocItems.map((item) => (
+            <li class:list={['toc-item', item.depth === 3 && 'toc-sub']}>
+              <a href={`#${item.slug}`}>
+                {item.depth === 2 ? (
+                  <span class="toc-num">{item.num}</span>
+                ) : (
+                  <span class="toc-dot" aria-hidden="true">●</span>
+                )}
+                <span class="toc-text">{item.text}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
     <div class="prose">
       <Content />
     </div>
     <a class="post-back" href={`/category/${post.data.category}/`}>← 回到「{cat.name}」</a>
   </article>
+
+  <script>
+    document.querySelectorAll('.toc-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const toc = btn.closest('.toc');
+        const collapsed = toc?.classList.toggle('collapsed');
+        btn.textContent = collapsed ? '展開' : '收合';
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
+  </script>
 </BaseLayout>

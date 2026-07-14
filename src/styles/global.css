@@ -91,8 +91,8 @@ footer b{color:var(--snow);font-family:var(--display);font-weight:400}
 .post .cat::before{content:'●';color:var(--gold);margin-right:6px;font-size:.6rem;vertical-align:2px}
 .post h1{font-size:clamp(1.7rem,4vw,2.4rem);margin:12px 0 8px}
 .post time{font-size:.85rem;color:#8FA9B5;display:block;margin-bottom:36px}
-.prose h2{font-family:var(--display);font-weight:400;font-size:1.45rem;margin:2.2em 0 .6em;padding-left:14px;border-left:4px solid var(--gold)}
-.prose h3{font-family:var(--display);font-weight:400;font-size:1.2rem;margin:1.8em 0 .5em}
+.prose h2{font-family:var(--display);font-weight:400;font-size:1.45rem;margin:2.2em 0 .6em;padding-left:14px;border-left:4px solid var(--gold);scroll-margin-top:90px}
+.prose h3{font-family:var(--display);font-weight:400;font-size:1.2rem;margin:1.8em 0 .5em;scroll-margin-top:90px}
 .prose p{margin:1em 0}
 .prose ul,.prose ol{margin:1em 0 1em 1.6em}
 .prose li{margin:.35em 0}
@@ -103,6 +103,20 @@ footer b{color:var(--snow);font-family:var(--display);font-weight:400}
 .prose code{background:var(--ice);padding:2px 7px;border-radius:6px;font-size:.9em}
 .post-back{display:inline-block;margin-top:48px;color:var(--mist)}
 .post-back:hover{color:var(--gold)}
+
+/* 文章目錄 */
+.toc{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:8px 0 32px;background:#fff}
+.toc-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.toc-head span{font-family:var(--display);font-weight:700;font-size:1rem;letter-spacing:-.01em;color:var(--ink)}
+.toc-toggle{background:none;border:1px solid var(--line);border-radius:999px;padding:4px 16px;font-size:.8rem;color:var(--mist);cursor:pointer;transition:border-color .2s,color .2s}
+.toc-toggle:hover{border-color:var(--gold);color:var(--ink)}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:16px;max-height:800px;overflow:hidden;opacity:1;transition:max-height .3s ease,opacity .25s ease,margin .3s ease}
+.toc-item a{display:flex;align-items:baseline;gap:10px;font-size:.92rem;color:var(--mist);transition:color .2s}
+.toc-item a:hover{color:var(--ink)}
+.toc-num{font-family:var(--display);font-weight:700;color:var(--gold);font-size:.85rem;flex-shrink:0}
+.toc-dot{color:var(--gold);font-size:.5rem;flex-shrink:0}
+.toc-sub{padding-left:30px}
+.toc.collapsed .toc-list{max-height:0;opacity:0;margin-top:0}
 
 /* 列表頁 */
 .list-hero{max-width:1080px;margin:0 auto;padding:56px 24px 8px}
