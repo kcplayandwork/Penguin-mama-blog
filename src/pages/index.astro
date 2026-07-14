@@ -7,8 +7,12 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 const featured = posts[0];
-const byCategory = (key: CategoryKey) =>
-  posts.filter((p) => p.data.category === key && p.id !== featured?.id).slice(0, 3);
+const byCategory = (key: CategoryKey) => {
+  const all = posts.filter((p) => p.data.category === key);
+  const withoutFeatured = all.filter((p) => p.id !== featured?.id);
+  // 如果精選文章是這個分類唯一的一篇，還是要顯示，不然分類區塊會誤顯示成空的
+  return (withoutFeatured.length > 0 ? withoutFeatured : all).slice(0, 3);
+};
 
 const fmt = (d: Date) =>
   d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
