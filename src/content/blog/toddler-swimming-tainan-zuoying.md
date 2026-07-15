@@ -4,6 +4,7 @@ description: 從左營童游藝境到台南泳池,快三年的幼兒游泳路。
 category: parenting
 pubDate: 2026-07-15T11:00:00
 draft: false
+related: [ami-3-6-observation, kids-3c-nurture]
 ---
 
 (這篇筆記寫於一年前,剛從左營轉到台南上課的時候。整理舊檔翻出來,原汁原味放上來。)

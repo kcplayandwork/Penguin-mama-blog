@@ -9,6 +9,7 @@ const blog = defineCollection({
     category: z.enum(['parenting', 'working', 'travel', 'solo']),
     pubDate: z.coerce.date(),
     draft: z.boolean().default(false),
+    related: z.array(z.string()).optional(), // 其他文章的 slug 陣列，用於「延伸閱讀」
   }),
 });
 

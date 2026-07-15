@@ -4,6 +4,7 @@ description: 剛好最近跟朋友聊到小孩用 3C 這件事。我從一開始
 category: parenting
 pubDate: 2026-07-14T11:00:00
 draft: false
+related: [mom-you-are-too-loud, choosing-montessori]
 ---
 
 先講立場：我從一開始就沒打算完全禁止小孩用 3C。

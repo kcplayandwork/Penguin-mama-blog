@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  slugs?: string[];
+}
+
+const { slugs } = Astro.props;
+
+let posts: Array<{ slug: string; title: string; excerpt: string }> = [];
+
+if (slugs && slugs.length > 0) {
+  const publishedPosts = await getCollection('blog', ({ data }) => !data.draft);
+  const bySlug = new Map(publishedPosts.map((p) => [p.id, p]));
+  posts = slugs
+    .map((slug) => bySlug.get(slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .map((p) => ({
+      slug: p.id,
+      title: p.data.title,
+      excerpt:
+        p.data.description.length > 50
+          ? `${p.data.description.slice(0, 50)}…`
+          : p.data.description,
+    }));
+}
+---
+
+{posts.length > 0 && (
+  <section class="related-posts" aria-label="延伸閱讀">
+    <div class="section-head" style="margin-bottom:20px">
+      <h2 style="font-size:1.2rem">延伸閱讀</h2>
+    </div>
+    <ul class="related-list">
+      {posts.map((post) => (
+        <li class="related-item">
+          <a href={`/blog/${post.slug}/`}>
+            <span class="related-title">{post.title}</span>
+            <span class="related-excerpt">{post.excerpt}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .related-list {
+    display: grid;
+    gap: 14px;
+    list-style: none;
+  }
+  .related-item a {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    transition: border-color 0.2s;
+  }
+  .related-item a:hover {
+    border-color: var(--harbor);
+  }
+  .related-title {
+    display: block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .related-excerpt {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--mist);
+    line-height: 1.6;
+  }
+  @media (min-width: 640px) {
+    .related-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

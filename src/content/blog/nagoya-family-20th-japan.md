@@ -4,6 +4,7 @@ description: 四歲前的第 20 次日本。這篇記錄名古屋段——交通
 category: travel
 pubDate: 2026-07-14T14:00:00
 draft: false
+related: [hoshino-winter-family, japan-family-travel-checklist]
 ---
 
 2026 年農曆新年，我帶著小企鵝踏上他四歲前的第 20 次日本旅程。

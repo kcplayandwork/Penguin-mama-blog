@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
 import { getCollection, render } from 'astro:content';
 import { CATEGORIES } from '../../categories';
 
@@ -76,6 +77,8 @@ const showToc = tocItems.length >= 3;
     <div class="prose">
       <Content />
     </div>
+
+    <RelatedPosts slugs={post.data.related} />
 
     <div class="share-row">
       <span class="share-label">分享這篇：</span>
