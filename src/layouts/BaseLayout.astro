@@ -1,24 +1,31 @@
 ---
+import { existsSync } from 'node:fs';
 import '../styles/global.css';
 import { CATEGORIES } from '../categories';
 
 interface Props {
   title: string;
   description: string;
-  /** 文章頁傳入，用於 og:type、BlogPosting schema 與 og:image 分類配色 */
+  /** 文章頁傳入，用於 og:type 與 BlogPosting schema */
   article?: { pubDate: Date; category?: keyof typeof CATEGORIES };
-  /** 分類頁傳入，決定 og:image 用哪個分類的分享圖 */
-  ogCategory?: keyof typeof CATEGORIES;
+  /** 文章頁傳入文章 slug，用來對到建置時產生的 /og/{slug}.png */
+  ogSlug?: string;
   /** 首頁才傳 true，加上 WebSite schema（沒有站內搜尋，所以不加 potentialAction） */
   isHome?: boolean;
 }
 
-const { title, description, article, ogCategory, isHome } = Astro.props;
+const { title, description, article, ogSlug, isHome } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const siteName = '企鵝媽媽的行李箱 Penguin Mama';
 const fullTitle = title === siteName ? title : `${title}｜${siteName}`;
-const ogImageKey = article?.category ?? ogCategory ?? 'default';
-const ogImage = new URL(`/og/${ogImageKey}.png`, Astro.site);
+
+// 首頁／分類頁／關於我用 default.png；文章頁用各自的 {slug}.png。
+// 若 scripts/generate-og-images.mjs 建置時沒有成功產生對應的圖（例如標題含罕見字導致 Satori 出錯），
+// 就退回用企鵝印章 logo，確保永遠有圖可以分享。
+const ogImageKey = ogSlug ?? 'default';
+const ogImagePath = new URL(`../../public/og/${ogImageKey}.png`, import.meta.url);
+const hasOgImage = existsSync(ogImagePath);
+const ogImage = new URL(hasOgImage ? `/og/${ogImageKey}.png` : '/penguin-logo-red.png', Astro.site);
 
 const publisher = {
   '@type': 'Organization',
@@ -84,8 +91,12 @@ if (isHome) {
   <meta property="og:site_name" content={siteName} />
   <meta property="og:locale" content="zh_TW" />
   <meta property="og:image" content={ogImage} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  {hasOgImage && (
+    <>
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+    </>
+  )}
   <meta name="twitter:card" content="summary_large_image" />
 
   {jsonLdList.map((jsonLd) => (

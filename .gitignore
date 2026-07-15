@@ -1,3 +1,5 @@
 node_modules/
 dist/
 .astro/
+# OG 分享圖是 prebuild 時自動產生的，不需要進版控
+public/og/*.png

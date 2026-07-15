@@ -41,6 +41,7 @@ const showToc = tocItems.length >= 3;
   title={post.data.title}
   description={post.data.description}
   article={{ pubDate: post.data.pubDate, category: post.data.category }}
+  ogSlug={post.id}
 >
   <article class="post">
     <a class="cat" href={`/category/${post.data.category}/`}>{cat.name}</a>
