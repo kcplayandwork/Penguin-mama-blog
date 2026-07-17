@@ -3,8 +3,10 @@ title: 帶小孩去日本旅行前,我現在會先想好的幾件事
 description: 多次帶小孩去日本之後整理出來的出發前心得——住宿怎麼選、購物日怎麼排、為什麼不要每餐都排隊、行程先想很多再刪,還有旺季預算的風險控管。不保證省錢,但希望大人小孩都少一點崩潰。
 category: travel
 pubDate: 2026-07-16T09:00:00
-draft: true
-related: [nagoya-family-20th-japan, tokyo-er-gallstone-solo-parenting]
+draft: false
+related:
+  - nagoya-family-20th-japan
+  - tokyo-er-gallstone-solo-parenting
 ---
 
 這幾年帶小企鵝去日本的次數多了之後,常常有人會以為我已經是識途老馬。
