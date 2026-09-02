@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: kcplayandwork/penguin-mama-blog
+  repo: kcplayandwork/Penguin-mama-blog
   branch: main
   base_url: https://penguinmama.blog
   auth_endpoint: api/auth
