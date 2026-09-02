@@ -37,13 +37,24 @@ collections:
             value: solo
       - label: 發布日期
         name: pubDate
-        widget: date
-        format: YYYY-MM-DD
+        widget: datetime
+        format: YYYY-MM-DDTHH:mm:ss
+        date_format: YYYY-MM-DD
+        time_format: HH:mm
       - label: 草稿
         name: draft
         widget: boolean
         default: false
         required: false
+      - label: 延伸閱讀
+        name: related
+        widget: list
+        required: false
+        hint: 填其他文章的 slug（檔名去掉 .md），例如 single-parent-system
+        field:
+          label: 文章 slug
+          name: slug
+          widget: string
       - label: 文章內容
         name: body
         widget: markdown
