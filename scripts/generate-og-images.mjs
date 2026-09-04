@@ -20,10 +20,10 @@ const MARGIN = 40;
 const CARD_PADDING = 56;
 
 const CATEGORIES = {
-  parenting: '企鵝寶寶副本',
-  working: '副本裡的大人',
-  travel: '親子行李箱',
-  solo: '一個人的行李箱',
+  parenting: '企鵝寶寶長大中',
+  working: '大人的功課',
+  travel: '兩個人的行李箱',
+  solo: '住在行李箱的那幾年',
 };
 
 const fontsDir = path.join(import.meta.dirname, 'fonts');
