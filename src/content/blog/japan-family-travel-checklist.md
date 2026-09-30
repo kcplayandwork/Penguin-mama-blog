@@ -6,6 +6,7 @@ pubDate: 2026-07-16T09:00:00
 draft: false
 related:
   - nagoya-family-20th-japan
+  - osaka-rainy-days-with-kid
   - tokyo-er-gallstone-solo-parenting
 ---
 
