@@ -5,6 +5,7 @@ category: travel
 pubDate: 2026-09-30T10:00:00
 draft: false
 related:
+  - bam-kero-osaka-books
   - nagoya-family-20th-japan
   - japan-family-travel-checklist
 ---
@@ -99,9 +100,11 @@ Check in 之後，我用「去坐遊船」的名義把小企鵝拖出門。吃�
 
 十八公斤的書。
 
-然後就只能想辦法在近鐵百貨書店附近找宅急便，先把書寄到機場。
+然後就只能想辦法把書寄到機場——結果一路被四間店拒絕，最後是靠一頓又貴又難吃的飯才解決的。
 
 真是很魂亂的一天。
+
+這一段太長了，我另外寫成一篇：[《包姆與凱羅》繁中版絕版，我在大阪搬了十八公斤的書回來](/blog/bam-kero-osaka-books/)。裡面也寫了回家開箱的心得、哪一個版本值得買、大阪哪幾間書店有貨，還有一件很多人不知道的事：書可以退稅。
 
 ## Day 3：科學館的 Family Time，一定要搶
 
