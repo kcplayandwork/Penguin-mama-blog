@@ -3,7 +3,7 @@ title: 沖繩速記：租車、美麗海、美國村，還有為什麼這次我�
 description: 四天三夜的沖繩速記。班機延誤就趕不上租車公司關門、美國村的飯店要指定哪一棟、開到美麗海要抓多久、Aeon Mall Rycom 值不值得去。還有一個我後來才想通的結論：問題不在沖繩，是我用錯了玩法。
 category: travel
 pubDate: 2026-10-14T10:00:00
-draft: true
+draft: false
 related:
   - osaka-rainy-days-with-kid
   - japan-family-travel-checklist
@@ -27,7 +27,7 @@ related:
 
 ## Day 1：班機延誤，就租不到車了
 
-來機延誤。
+來機延誤——就是要飛我們這一班的那架飛機，前一段航程就先誤點了。
 
 我當下就有預感：應該來不及趕上**租車公司晚上八點關門**。
 
